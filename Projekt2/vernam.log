@@ -1,0 +1,129 @@
+INFO  [openDLX]: Configuration is: {entry_point=64, code_start_addr=0x0, memory_latency=0, data_begin=0x4, text_begin=0x40, text_end=0x4c, file=D:/VS/3_semestr/INP/Projekt2_2021/vernam_openDLXFile.bin, log_file=D:/VS/3_semestr/INP/Projekt2_2021/vernam.log, data_end=0x20, log4j=log4j.properties, cycles=1000, dcache_use=0, use_forwarding=true, icache_use=0, use_load_stall_bubble=true, isa_type=DLX, print_file=D:/VS/3_semestr/INP/Projekt2_2021/vernam.out}
+INFO  [openDLX]: loading:D:/VS/3_semestr/INP/Projekt2_2021/vernam_openDLXFile.bin
+DEBUG [PagedMem]: Reserving 262144 pages, using the upper 18 bits for page addressing
+INFO  [BTB]: Initialising the predictors with: PREDICT_NOT_TAKEN
+INFO  [DECODE]: Inserting is DLX pipeline bubble: 0xffffffff
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 0 start
+DEBUG [openDLX]: -------------------
+DEBUG [FETCH]: PC: 0x00000040 fetched instruction 0x200e0018
+DEBUG [DECODE]: PC: 0x00000000 instruction decoded as NOP ALU:NOP rRs:false rRt:false wRt:false wRd:false uIMM:false uSA:false uIDX:false LD:false ST:false BR:false
+DEBUG [EXECUTE]: PC: 0x00000000 ALU calculated: 0(0x00000000) by: 0(0x00000000) NOP 0(0x00000000)
+DEBUG [BP_MODULE]: instruction at: 0x00000000 was not found in BTB
+DEBUG [MEMORY]: PC: 0x00000000 nothing to do
+INFO  [WRITEBACK]: PC: 0x00000000
+DEBUG [FETCH]: Pc is now at: 0x00000044
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 0 end
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 1 start
+DEBUG [openDLX]: -------------------
+DEBUG [FETCH]: PC: 0x00000044 fetched instruction 0x00a0000c
+DEBUG [DECODE]: PC: 0x00000040 instruction decoded as ADDI ALU:ADD rRs:true (0/r0 ) rRt:false wRt:true (14/r14) wRd:false uIMM:true (24) uSA:false uIDX:false LD:false ST:false BR:false
+DEBUG [EXECUTE]: PC: 0x00000000 ALU calculated: 0(0x00000000) by: 0(0x00000000) NOP 0(0x00000000)
+DEBUG [BP_MODULE]: instruction at: 0x00000040 was not found in BTB
+DEBUG [MEMORY]: PC: 0x00000000 nothing to do
+INFO  [WRITEBACK]: PC: 0x00000000
+DEBUG [FETCH]: Pc is now at: 0x00000048
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 1 end
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 2 start
+DEBUG [openDLX]: -------------------
+DEBUG [FETCH]: PC: 0x00000048 fetched instruction 0x0000000c
+DEBUG [DECODE]: PC: 0x00000044 instruction decoded as TRAP ALU:TRAP rRs:false rRt:true (14/r14) wRt:false wRd:false uIMM:false uSA:false uIDX:false LD:false ST:false BR:false
+DEBUG [EXECUTE/ALU]: 0(0x00000000) + 24(0x00000018) = 24(0x00000018)
+DEBUG [EXECUTE]: PC: 0x00000040 ALU calculated: 24(0x00000018) by: 0(0x00000000) ADD 24(0x00000018)
+DEBUG [BP_MODULE]: instruction at: 0x00000044 was not found in BTB
+DEBUG [MEMORY]: PC: 0x00000000 nothing to do
+INFO  [WRITEBACK]: PC: 0x00000000
+DEBUG [FETCH]: Pc is now at: 0x0000004c
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 2 end
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 3 start
+DEBUG [openDLX]: -------------------
+DEBUG [FETCH]: PC: 0x0000004c fetched instruction 0x00000000
+DEBUG [DECODE]: PC: 0x00000048 instruction decoded as TRAP ALU:TRAP rRs:false rRt:true (14/r14) wRt:false wRd:false uIMM:false uSA:false uIDX:false LD:false ST:false BR:false
+DEBUG [EXECUTE]: {FW} using ALU result 0x00000018 for register 14/r14 instead of value: 0x00000000
+DEBUG [EXECUTE]: {FW} PC: 0x00000044 forwarding changed value for ALU port A RT from: 0x0 to: 0x00000018
+DEBUG [PrintHandler]: TRAP 5 catched. Printf format string is at: 0x00000004 Parameter list begins at: 0x0000001c
+INFO  [PrintHandler]: Printf out: xbakaj00
+DEBUG [EXECUTE]: PC: 0x00000044 ALU calculated: 5(0x00000005) by: 24(0x00000018) TRAP 5(0x00000005)
+DEBUG [BP_MODULE]: instruction at: 0x00000048 was not found in BTB
+DEBUG [MEMORY]: PC: 0x00000040 nothing to do
+INFO  [WRITEBACK]: PC: 0x00000000
+DEBUG [FETCH]: Pc is now at: 0x00000050
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 3 end
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 4 start
+DEBUG [openDLX]: -------------------
+DEBUG [FETCH]: PC: 0x00000050 fetched instruction 0x00000000
+DEBUG [DECODE]: PC: 0x0000004c instruction decoded as NOP ALU:NOP rRs:false rRt:false wRt:false wRd:false uIMM:false uSA:false uIDX:false LD:false ST:false BR:false
+DEBUG [EXECUTE]: {FW} using ALU result 0x00000018 for register 14/r14 instead of value: 0x00000000
+DEBUG [EXECUTE]: {FW} PC: 0x00000048 forwarding changed value for ALU port A RT from: 0x0 to: 0x00000018
+INFO  [EXECUTE/ALU]: Catched trap 0: stopping pipeline in write back
+DEBUG [EXECUTE]: PC: 0x00000048 ALU calculated: 0(0x00000000) by: 24(0x00000018) TRAP 0(0x00000000)
+DEBUG [BP_MODULE]: instruction at: 0x0000004c was not found in BTB
+DEBUG [MEMORY]: PC: 0x00000044 nothing to do
+INFO  [WRITEBACK]: PC: 0x00000040
+DEBUG [WRITEBACK]: writing: 0x00000018 to register 14/r14
+DEBUG [REGISTERSET]:    |  0             1             2             3             4             5             6             7            |
+DEBUG [REGISTERSET]: ---+-----------------------------------------------------------------------------------------------------------------+
+DEBUG [REGISTERSET]:  0 | r0  0x00000000 r1  0x00000000 r2  0x00000000 r3  0x00000000 r4  0x00000000 r5  0x00000000 r6  0x00000000 r7  0x00000000 |
+DEBUG [REGISTERSET]:  8 | r8  0x00000000 r9  0x00000000 r10 0x00000000 r11 0x00000000 r12 0x00000000 r13 0x00000000 r14 0x00000018 r15 0x00000000 |
+DEBUG [REGISTERSET]: 16 | r16 0x00000000 r17 0x00000000 r18 0x00000000 r19 0x00000000 r20 0x00000000 r21 0x00000000 r22 0x00000000 r23 0x00000000 |
+DEBUG [REGISTERSET]: 24 | r24 0x00000000 r25 0x00000000 r26 0x00000000 r27 0x00000000 r28 0x00000000 r29 0x00000000 r30 0x00000000 r31 0x00000000 |
+DEBUG [REGISTERSET]: SP | HI 0x00000000 LO 0x00000000                                                                                     |
+DEBUG [REGISTERSET]: ---+-----------------------------------------------------------------------------------------------------------------+
+DEBUG [FETCH]: Pc is now at: 0x00000054
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 4 end
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 5 start
+DEBUG [openDLX]: -------------------
+DEBUG [FETCH]: PC: 0x00000054 fetched instruction 0x00000000
+DEBUG [DECODE]: PC: 0x00000050 instruction decoded as NOP ALU:NOP rRs:false rRt:false wRt:false wRd:false uIMM:false uSA:false uIDX:false LD:false ST:false BR:false
+DEBUG [EXECUTE]: PC: 0x0000004c ALU calculated: 0(0x00000000) by: 0(0x00000000) NOP 0(0x00000000)
+DEBUG [BP_MODULE]: instruction at: 0x00000050 was not found in BTB
+DEBUG [MEMORY]: PC: 0x00000048 nothing to do
+INFO  [WRITEBACK]: PC: 0x00000044
+DEBUG [FETCH]: Pc is now at: 0x00000058
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 5 end
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 6 start
+DEBUG [openDLX]: -------------------
+DEBUG [FETCH]: PC: 0x00000058 fetched instruction 0x00000000
+DEBUG [DECODE]: PC: 0x00000054 instruction decoded as NOP ALU:NOP rRs:false rRt:false wRt:false wRd:false uIMM:false uSA:false uIDX:false LD:false ST:false BR:false
+DEBUG [EXECUTE]: PC: 0x00000050 ALU calculated: 0(0x00000000) by: 0(0x00000000) NOP 0(0x00000000)
+DEBUG [BP_MODULE]: instruction at: 0x00000054 was not found in BTB
+DEBUG [MEMORY]: PC: 0x0000004c nothing to do
+INFO  [WRITEBACK]: Caught TRAP 0 - finishing simulation.
+INFO  [WRITEBACK]: PC: 0x00000048
+DEBUG [FETCH]: Pc is now at: 0x0000005c
+DEBUG [openDLX]: -------------------
+DEBUG [openDLX]: Cycle 6 end
+DEBUG [openDLX]: -------------------
+INFO  [openDLX]: Caught break instruction - stopping simulation.
+INFO  [openDLX]: -------- SIMULATION STATISTICS --------
+INFO  [openDLX]: Cycles: 7
+INFO  [openDLX]: Executed instructions: 3
+INFO  [openDLX]: Performed fetches: 7
+INFO  [openDLX]: Jumps: 0 (taken: 0, not taken: 0) branches_likely: 0 branches_and_link: 0
+INFO  [openDLX]: Branch Target Buffer (1, S_ALWAYS_NOT_TAKEN): hits: 0 misses: 0
+INFO  [openDLX]: Jumps correctly predicted: 0 mispredicted: 0
+INFO  [openDLX]: Number of unique jumps: 0
+INFO  [openDLX]: Memory accesses: 0 (reads: 0, writes: 0)
+INFO  [openDLX]: ALU forwarded values: 2 (from execute: 2, memory stage: 0, write back: 0)
+INFO  [openDLX]: BCRTL forwarded values: 0 (from execute: 0, memory stage: 0, write back: 0)
+INFO  [openDLX]: STORE forwarded values: 0 (from execute: 0, memory stage: 0, write back: 0)
+INFO  [openDLX]: Total forwarded values: 2 (from execute: 2, memory stage: 0, write back: 0)
+INFO  [openDLX]: -------- SIMULATION STATISTICS --------
