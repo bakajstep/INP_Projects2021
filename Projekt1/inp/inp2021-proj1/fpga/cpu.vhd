@@ -55,7 +55,8 @@ architecture behavioral of cpu is
 -- CNT
 	signal cnt_inc     : std_logic;
 	signal cnt_dec     : std_logic;
-	signal cnt_output  : std_logic_vector(9 downto 0);
+	signal cnt_set_one : std_logic;
+	signal cnt_output  : std_logic_vector(11 downto 0);
 -- PTR
 	signal ptr_inc     : std_logic;
 	signal ptr_dec     : std_logic;
@@ -71,28 +72,13 @@ architecture behavioral of cpu is
 		--operators
 		inc_ptr,
 		dec_ptr,
-		inc_val,
-		inc_val_mux,
-		inc_val_write,
-		dec_val,
-		dec_val_mux,
-		dec_val_write,
-		left_bracket,
-		left_bracket_1,
-		left_bracket_2,
-		left_bracket_3,
-		right_bracket,
-		right_bracket_1,
-		right_bracket_2,
-		right_bracket_3,
-		right_bracket_4,
-		print,
-		print_readed,
-		load,
-		load_ready,
-		tilda,
-		tilda_1,
-		tilda_2,
+		inc_val, inc_val_mux, inc_val_write,
+		dec_val, dec_val_mux, dec_val_write,
+		left_bracket, left_bracket_1, left_bracket_2, left_bracket_3,
+		right_bracket, right_bracket_1, right_bracket_2, right_bracket_3,right_bracket_4,
+		print, print_readed,
+		load, load_ready,
+		tilda, tilda_1, tilda_2,
 		zero
 	);
 	signal state       : fsm_state;
@@ -115,7 +101,7 @@ begin
 	CODE_ADDR <= pc_output;
 	
 -- Counter
-	cnt: process (CLK, RESET, cnt_inc, cnt_dec) is
+	cnt: process (CLK, RESET, cnt_inc, cnt_dec, cnt_set_one) is
 	begin
 		if RESET = '1' then
 			cnt_output <= (others => '0');
@@ -124,6 +110,8 @@ begin
 					cnt_output <= cnt_output + 1;
 				elsif cnt_dec = '1' then
 					cnt_output <= cnt_output - 1;
+				elsif cnt_set_one = '1' then
+					cnt_output <= "000000000001";
 				end if;
 		end if;
 	end process;
@@ -176,13 +164,14 @@ begin
 		end if;
 	end process;
 	
-	fsm: process (state, IN_VLD, OUT_BUSY, CODE_DATA, DATA_RDATA) is
+	fsm: process (state, IN_VLD, OUT_BUSY, CODE_DATA, DATA_RDATA, cnt_output) is
 	begin
 		-- Initialization
 		pc_inc <= '0';
 		pc_dec <= '0';
 		cnt_inc <= '0';
 		cnt_dec <= '0';
+		cnt_set_one <= '0';
 		ptr_inc <= '0';
 		ptr_dec <= '0';
 		CODE_EN <= '0';
@@ -222,16 +211,19 @@ begin
 						n_state <= zero;
 					when others =>
 						pc_inc <= '1';
-						n_state <= decode;
+						n_state <= fetch;
 				end case;
+			-- increase pointer
 			when inc_ptr =>
 				ptr_inc <= '1';
 				pc_inc <= '1';
 				n_state <= fetch;
+			-- decrease pointer
 			when dec_ptr => 
 				ptr_dec <= '1';
 				pc_inc <= '1';
 				n_state <= fetch;
+			-- increase value
 			when inc_val => 
 				DATA_EN <= '1';
 				DATA_WREN <= '0';
@@ -244,6 +236,7 @@ begin
 				DATA_WREN <= '1';
 				pc_inc <= '1';
 				n_state <= fetch;
+			-- decrease value
 			when dec_val => 
 				DATA_EN <= '1';
 				DATA_WREN <= '0';
@@ -256,6 +249,7 @@ begin
 				DATA_WREN <= '1';
 				pc_inc <= '1';
 				n_state <= fetch;
+			-- print character
 			when print =>
 				DATA_EN <= '1';
 				DATA_WREN <= '0';
@@ -270,12 +264,13 @@ begin
 					pc_inc <= '1';
 					n_state <= fetch;
 				end if;
+			-- load character
 			when load =>
 				IN_REQ <= '1';
 				mux_sel <= "00";
 				n_state <= load_ready;
 			when load_ready =>
-				if IN_VLD = '0' then
+				if IN_VLD /= '1' then
 					IN_REQ <= '1';
 					mux_sel <= "00";
 					n_state <= load_ready;
@@ -285,6 +280,7 @@ begin
 					pc_inc <= '1';
 					n_state <= fetch;
 				end if;
+			-- left_bracket
 			when left_bracket =>
 				pc_inc <= '1';
 				DATA_EN <= '1';
@@ -292,7 +288,7 @@ begin
 				n_state <= left_bracket_1;
 			when left_bracket_1 =>
 				if DATA_RDATA = "00000000" then -- if (ram[PTR] == 0)
-					cnt_output <= "0000000001";
+					cnt_set_one <= '1';
 					CODE_EN <= '1';
 					n_state <= left_bracket_2;
 				else
@@ -302,7 +298,7 @@ begin
 				CODE_EN <= '1'; 
 				n_state <= left_bracket_2;
 			when left_bracket_2 =>
-				if cnt_output /= "0000000000" then
+				if cnt_output /= "000000000000" then
 					if CODE_DATA = X"5B" then -- if (CODE_DATA == '[')
 						cnt_inc <= '1';
 					elsif CODE_DATA = X"5D" then -- if (CODE_DATA == ']')
@@ -313,6 +309,7 @@ begin
 				else
 					n_state <= fetch;
 				end if;
+			-- right_bracket
 			when right_bracket =>
 				DATA_EN <= '1';
 				DATA_WREN <= '0';
@@ -322,7 +319,7 @@ begin
 					pc_inc <= '1';
 					n_state <= fetch;
 				else
-					cnt_output <= "0000000001";
+					cnt_set_one <= '1';
 					pc_dec <= '1';
 					n_state <= right_bracket_2;
 				end if;
@@ -330,32 +327,33 @@ begin
 				CODE_EN <= '1'; 
 				n_state <= right_bracket_3;
 			when right_bracket_3 =>
-				if cnt_output = "0000000000" then
+				if cnt_output = "000000000000" then
 					n_state <= fetch;
 				else
-					if CODE_DATA = X"5D" then -- if (CODE_DATA == '[')
+					if CODE_DATA = X"5D" then -- if (CODE_DATA == ']')
 						cnt_inc <= '1';
-					elsif CODE_DATA = X"5B" then -- if (CODE_DATA == ']')
+					elsif CODE_DATA = X"5B" then -- if (CODE_DATA == '[')
 						cnt_dec <= '1';
 					end if;
 					n_state <= right_bracket_4;
 				end if;
 			when right_bracket_4 =>
-				if cnt_output = "0000000000" then
+				if cnt_output = "000000000000" then
 					pc_inc <= '1';
 				else
 					pc_dec <= '1';
 				end if;
 				n_state <= right_bracket_2;
+			-- tidla 
 			when tilda =>
-				cnt_inc <= '1';
+				cnt_set_one <= '1';
 				pc_inc <= '1';
 				n_state <= tilda_1;
 			when tilda_1 =>
 				CODE_EN <= '1';
 				n_state <= tilda_2;
 			when tilda_2 =>
-				if cnt_output = "0000000000" then
+				if cnt_output = "000000000000" then
 					n_state <= fetch;
 				else
 					if CODE_DATA = X"5B" then -- if (CODE_DATA == '[')
@@ -366,11 +364,11 @@ begin
 					pc_inc <= '1';
 					n_state <= tilda_1;
 				end if;
+			-- end
 			when zero =>
 				n_state <= zero;
 			when others =>  
-				pc_inc <= '1';
-				n_state <= fetch;
+				null;
 		end case;
 	end process;
 end behavioral;
