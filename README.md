@@ -7,7 +7,7 @@ První a druhý projekt do INP 2021.
 ## První projekt
 
 Overeni cinnosti kodu CPU:
-   #   testovany program (kod)       vysledek
+   testovany program (kod)        vysledek
    1.  ++++++++++                    ok
    2.  ----------                    ok
    3.  +>++>+++                      ok
@@ -19,8 +19,9 @@ Overeni cinnosti kodu CPU:
    9.  +++++[>++[>+.<-]<-]           ok
   10.  +[+~.------------]+           ok
 
-  Podpora jednoduchych cyklu: ano
-  Podpora vnorenych cyklu: ano
+Podpora jednoduchych cyklu: ano
+
+Podpora vnorenych cyklu: ano
 
 Poznamky k implementaci:
 Procesor nereaguje korektne na signal RESET nebo se pri nekterem programu zacykli
