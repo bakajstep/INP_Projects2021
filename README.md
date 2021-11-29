@@ -20,7 +20,6 @@ Overeni cinnosti kodu CPU:
   10.  +[+~.------------]+           ok
 
 Podpora jednoduchych cyklu: ano
-
 Podpora vnorenych cyklu: ano
 
 Poznamky k implementaci:
