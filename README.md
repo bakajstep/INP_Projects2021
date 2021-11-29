@@ -6,7 +6,7 @@ První a druhý projekt do INP 2021.
 
 ## První projekt
 
-Overeni cinnosti kodu CPU:
+#### Overeni cinnosti kodu CPU:
 
    1.  ++++++++++                    ok
    2.  ----------                    ok
@@ -23,7 +23,7 @@ Podpora jednoduchych cyklu: ano
 
 Podpora vnorenych cyklu: ano
 
-Poznamky k implementaci:
+#### Poznamky k implementaci:
 
 Procesor nereaguje korektne na signal RESET nebo se pri nekterem programu zacykli
 
@@ -31,4 +31,4 @@ Data z klavesnice korektne nactena, ale chybne zapsana do RAM (zpozdeni jeden ta
 
 Mozne problematicke rizeni nasledujicich signalu: DATA_WREN
 
-Celkem bodu za CPU implementaci: 14 (z 17)
+####Celkem bodu za CPU implementaci: 14 (z 17)
