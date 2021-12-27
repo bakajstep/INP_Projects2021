@@ -36,3 +36,4 @@ Mozne problematicke rizeni nasledujicich signalu: DATA_WREN
 
 
 ## Druhý projekt (10/10b)
+Neposlal žádné poznámky. 
