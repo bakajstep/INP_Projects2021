@@ -32,3 +32,7 @@ Data z klavesnice korektne nactena, ale chybne zapsana do RAM (zpozdeni jeden ta
 Mozne problematicke rizeni nasledujicich signalu: DATA_WREN
 
 ### Celkem bodu za CPU implementaci: 14 (z 17)
+
+
+
+## Druhý projekt (10/10b)
